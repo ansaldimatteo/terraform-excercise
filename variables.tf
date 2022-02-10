@@ -29,8 +29,14 @@ variable "ec2_key_pair" {
   default     = "frankfurt-keypair"
 }
 
+variable "http_ip_cidr" {
+  description = "CIDR range to access the public EC2 instance with HTTP"
+  type        = string
+  default     = "0.0.0.0/0"
+}
+
 variable "my_public_ip_cidr" {
-  description = "CIDR range to access the public EC2 instance"
+  description = "CIDR range to access the public EC2 instance with SSH"
   type        = string
   default     = "0.0.0.0/0"
 }

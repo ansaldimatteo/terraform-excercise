@@ -1,37 +1,51 @@
-resource "aws_lb" "external-alb" {
-  name               = "External-LB"
+//WEB ----------------------------------------------------
+resource "aws_lb" "web-external-alb" {
+  name               = "web-external-LB"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = ["${aws_security_group.ingress-all-test.id}"]
-  subnets = [
-    "${aws_subnet.public_subnet_1.id}",
-    "${aws_subnet.public_subnet_2.id}",
-    "${aws_subnet.public_subnet_3.id}",
-  ]
+  security_groups    = ["${aws_security_group.ingress-http-all.id}"]
+  subnets            = module.vpc.public_subnets
 }
 
-resource "aws_lb_target_group" "target-elb" {
-  name     = "ALB-TG"
+resource "aws_lb_target_group" "target-elb-web" {
+  name     = "ALB-TG-WEB"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = aws_vpc.app_vpc.id
+  vpc_id   = module.vpc.vpc_id
 }
 
-resource "aws_lb_target_group_attachment" "attachment" {
-  target_group_arn = aws_lb_target_group.target-elb.arn
-  target_id        = aws_instance.general_server.id
-  port             = 80
-  depends_on = [
-    aws_instance.general_server,
-  ]
-}
-
-resource "aws_lb_listener" "listener_http" {
-  load_balancer_arn = aws_lb.external-alb.arn
+resource "aws_lb_listener" "listener_http_web" {
+  load_balancer_arn = aws_lb.web-external-alb.arn
   port              = "80"
   protocol          = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target-elb.arn
+    target_group_arn = aws_lb_target_group.target-elb-web.arn
+  }
+}
+
+//APPLICATION ----------------------------------------------
+resource "aws_lb" "application-external-alb" {
+  name               = "application-external-LB"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = ["${aws_security_group.ingress-http-all.id}"]
+  subnets            = module.vpc.public_subnets
+}
+
+resource "aws_lb_target_group" "target-elb-application" {
+  name     = "ALB-TG-APPLICATION"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = module.vpc.vpc_id
+}
+
+resource "aws_lb_listener" "listener_http_application" {
+  load_balancer_arn = aws_lb.application-external-alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target-elb-application.arn
   }
 }
