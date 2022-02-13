@@ -1,0 +1,70 @@
+openapi: '3.0.2'
+info:
+  title: App server API
+  version: '1.0'
+servers:
+  - url: http://localhost:80
+
+
+paths:
+
+  /:
+    get:
+      description: Get all key-pair values in the DB
+      responses:
+        '200':
+          description: key-pair values
+          content:
+            application/json:
+              schema:
+                type: array
+                properties:
+                  key:
+                    type: string
+                  value:
+                    type: string
+                example: [["user4Key","testValue99-hello"],["key1","testValue99-hello-hello"]]
+
+  /{key}:
+    get:
+      description: Get item from db
+      responses:
+        '200':
+          description: User db
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: object
+                example: ["key","value"]
+    put:
+      description: 'Add item to db'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - value
+              properties:
+                value:
+                  type: string
+      responses:
+        '201':
+          description: Item added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: object
+                example: ["key","value"]
+    delete:
+      description: Delete item from db
+      responses:
+        '200':
+          description: Item deleted
