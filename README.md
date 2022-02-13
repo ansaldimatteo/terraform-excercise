@@ -49,7 +49,7 @@ Security group open on port `80` to specified IPs.
 
 ### App server:
 
-Security group open on port `80` to specified web ALB. Security group open on port `22` to Bastion Host.
+Security group open on port `80` to specified app ALB. Security group open on port `22` to Bastion Host.
 
 Please view [`exercise-openapi.yml`](docs/exercise-openapi3.yml) to view the REST API calls.
 
