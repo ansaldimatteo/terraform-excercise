@@ -4,8 +4,8 @@ resource "aws_instance" "db_server" {
   instance_type = "t2.micro"
   key_name      = var.ec2_key_pair
   vpc_security_group_ids = [
-    "${aws_security_group.ingress-mysql-app.id}",
-    "${aws_security_group.ingress-bh.id}",
+    "${aws_security_group.ingress_mysql_app.id}",
+    "${aws_security_group.ingress_bh.id}",
   ]
 
   tags = {
@@ -26,7 +26,7 @@ resource "aws_instance" "bastion_host_server" {
   ami                    = "ami-0d527b8c289b4af7f" # Ubuntu 20.04
   instance_type          = "t2.micro"
   key_name               = var.ec2_key_pair
-  vpc_security_group_ids = ["${aws_security_group.ingress-ssh-my-ip.id}"]
+  vpc_security_group_ids = ["${aws_security_group.ingress_ssh_my_ip.id}"]
 
   tags = {
     Name = "BHServerInstance"

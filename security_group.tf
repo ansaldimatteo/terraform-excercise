@@ -1,5 +1,5 @@
 //ALB
-resource "aws_security_group" "ingress-http-all" {
+resource "aws_security_group" "ingress_http_all" {
   name   = "allow-http-all"
   vpc_id = module.vpc.vpc_id
   # HTTP
@@ -19,7 +19,7 @@ resource "aws_security_group" "ingress-http-all" {
 }
 
 //BH
-resource "aws_security_group" "ingress-ssh-my-ip" {
+resource "aws_security_group" "ingress_ssh_my_ip" {
   name   = "allow-ssh-my-ip"
   vpc_id = module.vpc.vpc_id
   # SSH
@@ -39,7 +39,7 @@ resource "aws_security_group" "ingress-ssh-my-ip" {
 }
 
 //WEB servers
-resource "aws_security_group" "ingress-http-web-all" {
+resource "aws_security_group" "ingress_http_web_all" {
   name   = "allow-http-web-all"
   vpc_id = module.vpc.vpc_id
   # HTTP
@@ -47,7 +47,7 @@ resource "aws_security_group" "ingress-http-web-all" {
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
-    security_groups = ["${aws_security_group.ingress-http-all.id}"]
+    security_groups = ["${aws_security_group.ingress_http_all.id}"]
   }
 
   egress {
@@ -59,7 +59,7 @@ resource "aws_security_group" "ingress-http-web-all" {
 }
 
 //APP servers
-resource "aws_security_group" "ingress-http-app-all" {
+resource "aws_security_group" "ingress_http_app_all" {
   name   = "allow-http-app-all"
   vpc_id = module.vpc.vpc_id
   # HTTP
@@ -67,7 +67,7 @@ resource "aws_security_group" "ingress-http-app-all" {
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
-    security_groups = ["${aws_security_group.ingress-http-all.id}"]
+    security_groups = ["${aws_security_group.ingress_http_all.id}"]
   }
 
   egress {
@@ -79,7 +79,7 @@ resource "aws_security_group" "ingress-http-app-all" {
 }
 
 //DB servers
-resource "aws_security_group" "ingress-mysql-app" {
+resource "aws_security_group" "ingress_mysql_app" {
   name   = "allow-mysql-app"
   vpc_id = module.vpc.vpc_id
   # MySQL
@@ -87,7 +87,7 @@ resource "aws_security_group" "ingress-mysql-app" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = ["${aws_security_group.ingress-http-app-all.id}"]
+    security_groups = ["${aws_security_group.ingress_http_app_all.id}"]
   }
 
   egress {
@@ -99,7 +99,7 @@ resource "aws_security_group" "ingress-mysql-app" {
 }
 
 //ACCESS FROM BH
-resource "aws_security_group" "ingress-bh" {
+resource "aws_security_group" "ingress_bh" {
   name   = "allow-bh"
   vpc_id = module.vpc.vpc_id
   # SSH from BH
@@ -107,7 +107,7 @@ resource "aws_security_group" "ingress-bh" {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    security_groups = ["${aws_security_group.ingress-ssh-my-ip.id}"]
+    security_groups = ["${aws_security_group.ingress_ssh_my_ip.id}"]
   }
 
   egress {

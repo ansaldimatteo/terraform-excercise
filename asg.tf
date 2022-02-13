@@ -7,7 +7,7 @@ resource "aws_autoscaling_group" "web" {
   max_size         = 3
 
 
-  target_group_arns = [aws_lb_target_group.target-elb-web.id]
+  target_group_arns = [aws_lb_target_group.target_elb_web.id]
 
   launch_configuration = aws_launch_configuration.web.name
 
@@ -31,7 +31,7 @@ resource "aws_autoscaling_group" "web" {
   }
 
   depends_on = [
-    aws_lb.application-external-alb,
+    aws_lb.application_external_alb,
   ]
 }
 
@@ -44,7 +44,7 @@ resource "aws_autoscaling_group" "application" {
   max_size         = 3
 
 
-  target_group_arns = [aws_lb_target_group.target-elb-application.id]
+  target_group_arns = [aws_lb_target_group.target_elb_application.id]
 
   launch_configuration = aws_launch_configuration.application.name
 

@@ -7,20 +7,20 @@ resource "aws_launch_configuration" "web" {
   key_name      = var.ec2_key_pair
 
   security_groups = [
-    aws_security_group.ingress-http-web-all.id,
-    aws_security_group.ingress-bh.id,
+    aws_security_group.ingress_http_web_all.id,
+    aws_security_group.ingress_bh.id,
   ]
   associate_public_ip_address = true
 
 
-  user_data = "${data.template_file.init_web.rendered}"
+  user_data = data.template_file.init_web.rendered
 }
 
 data "template_file" "init_web" {
   template = file("scripts/web-data.sh")
 
   vars = {
-    app_url = "${aws_lb.application-external-alb.dns_name}"
+    app_url = "${aws_lb.application_external_alb.dns_name}"
   }
 }
 
@@ -33,8 +33,8 @@ resource "aws_launch_configuration" "application" {
   key_name      = var.ec2_key_pair
 
   security_groups = [
-    aws_security_group.ingress-http-app-all.id,
-    aws_security_group.ingress-bh.id,
+    aws_security_group.ingress_http_app_all.id,
+    aws_security_group.ingress_bh.id,
   ]
   associate_public_ip_address = true
 

@@ -11,7 +11,7 @@ Please specify your IP CIDR range in `variables.tf` under `my_public_ip_cidr`. T
 
 If you want to limit access via HTTP to the load balancers, please specify your IP CIDR range in `variables.tf` under `http_ip_cidr`. Currently it's set at `0.0.0.0/0` and is fully open.
 
-Build the architecture using `terraform apply`, it takes about 4 minutes to build completely. Once the architecture is built, the instances will still take about 1 minute to startup automatically.
+Build the architecture using `terraform init` and `terraform apply`, it takes about 4 minutes to build completely. Once the architecture is built, the instances will still take about 1 minute to startup automatically.
 
 Use `web_lb_dns_name` in the outputs to connect to the web servers and start using the service.
 
@@ -41,6 +41,8 @@ Connect to the Web servers from the Bastion Host using the specified keypair wit
 
 View the Web server code at https://github.com/ansaldimatteo/simple-website
 
+The autoscaling group will add a new web server when CPU usage is over 70%, and remove an instance when CPU usage is under 30%.
+
 ### App ALB:
 
 Security group open on port `80` to specified IPs.
@@ -54,6 +56,8 @@ Please view [`exercise-openapi.yml`](docs/exercise-openapi3.yml) to view the RES
 Connect to the App servers from the Bastion Host using the specified keypair with the user `ubuntu`.
 
 View the App server code at https://github.com/ansaldimatteo/simple-flask-app
+
+The autoscaling group will add a new app server when CPU usage is over 70%, and remove an instance when CPU usage is under 30%.
 
 ### DB server:
 
